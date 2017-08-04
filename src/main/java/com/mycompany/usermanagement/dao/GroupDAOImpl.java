@@ -38,16 +38,30 @@ public class GroupDAOImpl implements GroupDAO {
 			   }
 		
 	}
+	
+	@Override
+	public void deleteUserInGroup(int userId,int groupId) {
+			String sql = "DELETE FROM membership WHERE GroupID="+groupId+" AND UserID="+userId;
+		   
+		 
+		    int i = jdbcTemplate.update(sql);
+		    System.out.println("user deleted from group"+groupId+" "+userId+"rows updated"+i+" "+sql);
+		
+
+
+		
+		
+	}
 
 	@Override
 	public void delete(int groupId) {
 			String sql = "DELETE FROM membership WHERE GroupID=?";
 		    String sql2 = "DELETE FROM Groups WHERE id=?";
 		    System.out.println(groupId);
-		    jdbcTemplate.update(sql, groupId);
-		    System.out.println("jeden");
-		    jdbcTemplate.update(sql2, groupId);
-		    System.out.println("dwa");
+		  int i=  jdbcTemplate.update(sql, groupId);
+		   
+		   int z = jdbcTemplate.update(sql2, groupId);
+		    System.out.println("rows updated"+i+" "+ z);
 		
 		
 	}

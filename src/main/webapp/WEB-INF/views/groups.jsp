@@ -15,11 +15,11 @@
 var userApp = angular.module('userApp', ["ngRoute"]);
 userApp.controller('userCtrl', function($rootScope, $http){
 	
-	$rootScope.usersInGroup = [];
+
 	$rootScope.groups = [];
 	$rootScope.group= {};
 	$rootScope.selectedGroup = {};
-
+	$rootScope.id="";
 
     $rootScope.flag = false;
 	  $rootScope.reset = function () {
@@ -72,7 +72,7 @@ userApp.controller('userCtrl', function($rootScope, $http){
         $http.get('/usermanagement/groups/'+id).then(successCallback, errorCallback);
 
         function successCallback(response){
-      
+      		$rootScope.id = id;
         	$rootScope.group = response.data;
         	$rootScope.refreshGroup(id);
         	$rootScope.groupName = $rootScope.group.groupname;
@@ -107,10 +107,7 @@ userApp.controller('userCtrl', function($rootScope, $http){
         
             
             
-            
-            
-  
-    
+       
     
     
     
@@ -129,6 +126,24 @@ userApp.controller('userCtrl', function($rootScope, $http){
         }
         
         };
+        
+        $rootScope.deleteUserInGroup = function(userID,groupID){
+            
+            $http.delete('/usermanagement/groups/'+userID+'/'+groupID).then(successCallback, errorCallback);
+
+            function successCallback(response){
+            
+            	$rootScope.getGroupId(groupID);
+            	console.log(response);
+            	console.log($rootScope);
+            	console.log(groupID,userID);
+            }
+            function errorCallback(error){
+            	console.log(error, 'can not delete data.');
+            	console.log(groupID,userID);
+            }
+            
+            };
         
         
         
@@ -202,8 +217,8 @@ userApp.controller('userCtrl', function($rootScope, $http){
 				
     </script>
     
-    	<div class="container">
-				<h1>Group {{groupName}}</h1>
+    	<div ng-controller="userCtrl" class="container">
+				<h1>{{groupName}}</h1>
 			
 				<section >
 				
@@ -222,8 +237,8 @@ userApp.controller('userCtrl', function($rootScope, $http){
 				<td>{{p.lastname}}</td>
 				<td>{{p.username}}</td>
 				<td>{{p.birthdate}}</td>
-				<td><a class="btn btn-danger" ng-click="deleteUserInGroup(p.id)">Delete</a></td>
-				<td><a class="btn btn-danger" ng-click="editContact(p)">Edit</a></td>
+				<td><a class="btn btn-danger" ng-click="deleteUserInGroup(p.id,id)">Delete user from group</a></td>
+				
 				 </tr>
 				 
         

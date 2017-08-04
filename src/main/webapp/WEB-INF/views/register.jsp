@@ -27,6 +27,13 @@ userApp.controller('userCtrlr', function($rootScope, $http,$scope){
 		 }
 		}
     
+	$scope.cancel= function() { 
+		 if (window.confirm('Cancel?'))
+		 {
+		   
+		   window.location.href = '/usermanagement/';
+		 }
+		}
    
             
             $rootScope.addUser = function(p){
@@ -65,12 +72,12 @@ userApp.controller('userCtrlr', function($rootScope, $http,$scope){
     
         <div class="form-group" ng-class="{ 'has-error': form.firstName.$dirty && form.firstName.$error.required }">
             <label for="username">First name</label>
-            <input type="text" name="firstName" id="firstName" class="form-control" ng-model="user.lastname" required />
+            <input type="text" name="firstName" id="firstName" class="form-control" ng-model="user.firstname" required />
             <span ng-show="form.firstName.$dirty && form.firstName.$error.required" class="help-block">First name is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.lastName.$dirty && form.lastName.$error.required }">
             <label for="username">Last name</label>
-            <input type="text" name="lastName" id="Text1" class="form-control" ng-model="user.firstname" required />
+            <input type="text" name="lastName" id="Text1" class="form-control" ng-model="user.lastname" required />
             <span ng-show="form.lastName.$dirty && form.lastName.$error.required" class="help-block">Last name is required</span>
         </div>
         <div class="form-group" ng-class="{ 'has-error': form.username.$dirty && form.username.$error.required }">
@@ -87,7 +94,7 @@ userApp.controller('userCtrlr', function($rootScope, $http,$scope){
         
             <button type="submit" ng-click="addUser(user)" href="/usermanagement/user/" class="btn btn-primary">Register</button>
          
-            <a href="#!/login" class="btn btn-link">Cancel</a>
+            <a ng-click="cancel()" class="btn btn-link">Cancel</a>
         </div>
     </form>
 </div>

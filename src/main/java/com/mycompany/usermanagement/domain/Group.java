@@ -22,7 +22,7 @@ public class Group {
 
 	private String groupname;
 	
-	private ArrayList<Users> userList;
+
 	
 	
 	
@@ -42,13 +42,7 @@ public class Group {
 		this.groupname = groupname;
 	}
 
-	public ArrayList<Users> getUserList() {
-		return userList;
-	}
 
-	public void setUserList(ArrayList<Users> userList) {
-		this.userList = userList;
-	}
 
 	
 	

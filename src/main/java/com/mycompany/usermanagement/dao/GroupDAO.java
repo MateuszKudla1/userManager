@@ -17,6 +17,8 @@ public interface GroupDAO {
 	    
 	    public List<Users> listGroup(int i);
 	    
+	    public void deleteUserInGroup(int groupId,int userId);
+	    
 	    
 
 }

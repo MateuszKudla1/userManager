@@ -97,6 +97,17 @@ public class GroupController {
 
 	 }
 	 
+	 @RequestMapping(value="/groups/{id}/{id2}", method=RequestMethod.DELETE)
+	 @ResponseStatus(value = HttpStatus.NO_CONTENT)
+	 public void deleteUserInGroup(@PathVariable("id") String id,@PathVariable("id2") String id2) {
+	
+	int i= Integer.parseInt(id);
+	int d= Integer.parseInt(id2);
+	System.out.println(""+i+" "+d);
+		 groupDAO.deleteUserInGroup(i,d);;
+
+	 }
+	 
 	 @RequestMapping(value="/Addgroup", method=RequestMethod.POST)
 	 @ResponseStatus(value = HttpStatus.NO_CONTENT)
 	    public void addGroupPost(@RequestBody  Group g) {

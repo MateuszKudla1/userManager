@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
+import com.mycompany.usermanagement.domain.Group;
 import com.mycompany.usermanagement.domain.Users;
 
 public class UserDAOImpl implements UserDAO {
@@ -39,7 +40,9 @@ public class UserDAOImpl implements UserDAO {
 
 	@Override
 	public void delete(int userId) {
+		String sql2 = "DELETE FROM membership WHERE UserID = ?";
 	    String sql = "DELETE FROM Users WHERE id=?";
+	    jdbcTemplate.update(sql2, userId);
 	    jdbcTemplate.update(sql, userId);
 	}
 		
@@ -54,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
 	@Override
 	public List<Users> list() {
 		
-		 String sql = "SELECT * FROM Users";
+		 String sql = "SELECT * FROM Users ORDER BY lastname";
 		
 		    List<Users> listContact = jdbcTemplate.query(sql, new RowMapper<Users>() {
 		    
@@ -83,6 +86,75 @@ public class UserDAOImpl implements UserDAO {
 		    return  listContact;
 	}
 
+	@Override
+	public List<Group> listUserGroups(int i) {
+		String sql ="SELECT Groups.groupname, Groups.id FROM Users join membership ON Users.id = membership.UserID join Groups ON Groups.id = membership.GroupID WHERE Users.id = "+i;
+		
+		   List<Group> listGroups = jdbcTemplate.query(sql, new RowMapper<Group>() {
+			    
+				 
+			      @Override
+			        public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
+			            
+			        	Group group = new Group();
+			 
+			            group.setId(rs.getInt("id"));
+			            group.setGroupname(rs.getString("groupname"));
+			           
+			            
+			            System.out.println(group.toString());
+			          
+			         
+			      
+			 
+			            return group;
+			        }
+			 
+			    });
+			
+			    return  listGroups;
+			    
+	}
+
+	@Override
+	public List<Group> listUserGroupsToAdd(int i) {
+		
+		String sql ="SELECT Groups.id,Groups.groupname FROM Groups"+  
+" minus SELECT Groups.id,Groups.groupname FROM Users left join membership on Users.id = membership.UserID LEFT JOIN Groups ON membership.GroupID = Groups.id WHERE  Users.id ="+i;
+		
+		  List<Group> listGroups = jdbcTemplate.query(sql, new RowMapper<Group>() {
+			    
+				 
+		      @Override
+		        public Group mapRow(ResultSet rs, int rowNum) throws SQLException {
+		            
+		        	Group group = new Group();
+		 
+		            group.setId(rs.getInt("id"));
+		            group.setGroupname(rs.getString("groupname"));
+		           
+		            
+		            System.out.println(group.toString());
+		          
+		         
+		      
+		 
+		            return group;
+		        }
+		 
+		    });
+		
+		    return  listGroups;
+		    
+}
+
+	@Override
+	public void addUserToGroup(int i, int z) {
+		String sql = "INSERT INTO membership (UserID,GroupID) VALUES (?,?)";
+		jdbcTemplate.update(sql,i,z );
+		
+		
+	}
 	
 	
 	

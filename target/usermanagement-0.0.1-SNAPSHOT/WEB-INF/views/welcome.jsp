@@ -102,7 +102,7 @@ userApps.controller('userCtrls', function($rootScope, $http,$scope){
 				<h1>User management  </h1>
 			
 				<section >
-				<p ng-controller="userCtrls"><a class="btn btn-danger" ng-click="refreshUser()">All Users</a></p>
+				<p ng-controller="userCtrls" data-ng-init="refreshUser()"><a class="btn btn-danger" ng-click="refreshUser()">All Users</a></p>
 				<p ng-controller="userCtrls"><a class="btn btn-danger" href="/usermanagement/user/addUser">Add User</a></p>
 			
 				<table class="table table-hover">
@@ -125,6 +125,7 @@ userApps.controller('userCtrls', function($rootScope, $http,$scope){
 				<td>{{p.birthdate}}</td>
 				<td><a class="btn btn-danger" ng-click="deleteUser(p.id)">Delete</a></td>
 				<td><a class="btn btn-danger" ng-click="editContact(p)">Edit</a></td>
+<td><a class="btn btn-danger" ng-click="">Groups</a></td>
 				 </script>
 				 
 				    <script type="text/ng-template" id="edit">
@@ -134,6 +135,7 @@ userApps.controller('userCtrls', function($rootScope, $http,$scope){
         <td><input type="text" ng-model="selected.birthdate" /></td>
         <td><a class="btn btn-danger" ng-click="updateUser(selected)">Save</a></td>
 				<td><a class="btn btn-danger" ng-click="reset()">Cancel</a></td>
+<td><a class="btn btn-danger" ng-click="">Groups</a></td>
     </script>
 				
 			
@@ -142,7 +144,7 @@ userApps.controller('userCtrls', function($rootScope, $http,$scope){
 			
 				
 	
-				
+				<p ng-controller="userCtrls"><a class="btn btn-danger" href="/usermanagement/Allgroups">Groups</a></p>
 			</section>
 			</div>
 			

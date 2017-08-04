@@ -54,6 +54,7 @@ public class HomeController {
 	
 	
 	
+	
 	 
 	 
 	 @RequestMapping(value="/user", method=RequestMethod.GET)
@@ -63,6 +64,38 @@ public class HomeController {
 	
 	 
 	 return new ResponseEntity<List<Users>>(list, new HttpHeaders(), HttpStatus.OK);
+	 }
+	 
+	 
+	 @RequestMapping(value="/user/{userID}", method=RequestMethod.GET)
+	 public ResponseEntity<List<Group>> getGroups(@PathVariable("userID") String id) {
+		 System.out.println(id);
+		int i = Integer.parseInt(id);
+		 List<Group> list = userDAO.listUserGroups(i);
+
+	 return new ResponseEntity<List<Group>>(list, new HttpHeaders(), HttpStatus.OK);
+	 }
+	 
+	 @RequestMapping(value="/user/{userID}", method=RequestMethod.POST)
+	 public ResponseEntity<List<Group>> getGroupsToAdd(@PathVariable("userID") String id) {
+		 System.out.println(id);
+		int i = Integer.parseInt(id);
+		 List<Group> list = userDAO.listUserGroupsToAdd(i);
+
+	 return new ResponseEntity<List<Group>>(list, new HttpHeaders(), HttpStatus.OK);
+	 }
+	 
+	 
+	 @RequestMapping(value="/user/{userID}/{groupID}", method=RequestMethod.GET)
+	 @ResponseStatus(value = HttpStatus.NO_CONTENT)
+	 public void addUserToGroup(@PathVariable("userID") String id,@PathVariable("groupID") String id2) {
+		 System.out.println(id);
+		
+		int i = Integer.parseInt(id);
+		int z = Integer.parseInt(id2);
+		userDAO.addUserToGroup(i,z);
+
+	 
 	 }
 	 
 	 @RequestMapping(value="/user/{userID}", method=RequestMethod.DELETE)

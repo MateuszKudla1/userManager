@@ -6,7 +6,7 @@ userApp.controller('userCtrl', function($rootScope, $http){
 	$rootScope.selectedGroup = {};
 	$rootScope.groupName="";
  
-	  $rootScope.reset2 = function () {
+	  $rootScope.reset = function () {
 	        $rootScope.selectedGroup = {};
 	    };
 	

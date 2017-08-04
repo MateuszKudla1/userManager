@@ -2,8 +2,10 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html>
 <head>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
 
 	<script>
@@ -13,6 +15,8 @@ var userApps = angular.module('userApps', []);
 userApps.controller('userCtrls', function($rootScope, $http,$scope){
 	$rootScope.users = [];
 	$rootScope.selected = {};
+	$rootScope.groups = [];
+	$rootScope.groupsToAdd=[];
  
 	  $rootScope.reset = function () {
 	        $rootScope.selected = {};
@@ -43,6 +47,44 @@ userApps.controller('userCtrls', function($rootScope, $http,$scope){
     
     };
     
+    
+    $rootScope.showUsersGroups = function(userID){
+        
+        $http.get('/usermanagement/user/'+userID).then(successCallback, errorCallback);
+
+        function successCallback(response){
+        	
+        	$rootScope.groups = response.data;
+        	console.log(response);
+        	console.log($rootScope);
+        }
+        function errorCallback(error){
+        	console.log(error, 'can not get data.');
+        }
+        
+        };
+        
+       $rootScope.showGroupsToAdd = function(userID){
+            
+            $http.post('/usermanagement/user/'+userID).then(successCallback, errorCallback);
+
+            function successCallback(response){
+            	
+            	$rootScope.groupsToAdd = response.data;
+            	console.log(response);
+            	console.log($rootScope);
+            }
+            function errorCallback(error){
+            	console.log(error, 'can not get data.');
+            }
+            
+            };
+        
+        
+    
+    
+    
+    
     $rootScope.deleteUser = function(userID){
         
         $http.delete('/usermanagement/user/'+userID).then(successCallback, errorCallback);
@@ -72,6 +114,23 @@ userApps.controller('userCtrls', function($rootScope, $http,$scope){
             }
             
             };
+            
+            $rootScope.addUserToGroup = function(userID,groupID){
+                
+                $http.get('/usermanagement/user/'+userID+'/'+groupID).then(successCallback, errorCallback);
+
+                function successCallback(response){
+                	$rootScope.reset();
+                	console.log(userID,groupID);
+                	
+                	
+                }
+                function errorCallback(error){
+                	console.log(error, 'can not update data.');
+                	console.log(userID,groupID);
+                }
+                
+                };
             
             $rootScope.addUser = function(p){
                 
@@ -125,7 +184,20 @@ userApps.controller('userCtrls', function($rootScope, $http,$scope){
 				<td>{{p.birthdate}}</td>
 				<td><a class="btn btn-danger" ng-click="deleteUser(p.id)">Delete</a></td>
 				<td><a class="btn btn-danger" ng-click="editContact(p)">Edit</a></td>
-<td><a class="btn btn-danger" ng-click="">Groups</a></td>
+<td>
+
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="showUsersGroups(p.id)">
+    Groups
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li ng-repeat="a in groups"><a href="#">{{a.groupname}}</a></li>
+
+  </ul>
+</div>
+
+</td>
 				 </script>
 				 
 				    <script type="text/ng-template" id="edit">
@@ -135,7 +207,20 @@ userApps.controller('userCtrls', function($rootScope, $http,$scope){
         <td><input type="text" ng-model="selected.birthdate" /></td>
         <td><a class="btn btn-danger" ng-click="updateUser(selected)">Save</a></td>
 				<td><a class="btn btn-danger" ng-click="reset()">Cancel</a></td>
-<td><a class="btn btn-danger" ng-click="">Groups</a></td>
+<td>
+<div class="dropdown">
+  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" ng-click="showGroupsToAdd(p.id)">
+   Add to Group
+    <span class="caret"></span>
+  </button>
+  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+    <li ng-repeat="ga in groupsToAdd"><a ng-click="addUserToGroup(selected.id,ga.id)">Add to {{ga.groupname}}</a></li>
+
+  </ul>
+</div>
+
+
+</td>
     </script>
 				
 			

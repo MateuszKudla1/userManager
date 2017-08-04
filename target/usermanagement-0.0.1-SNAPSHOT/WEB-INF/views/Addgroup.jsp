@@ -18,7 +18,13 @@ userApp.controller('userCtrl', function($rootScope, $http,$scope){
 			    };
 	
  
-
+	function myFunction() { 
+		 if (window.confirm('Success'))
+		 {
+		   
+		   window.location.href = '/usermanagement/Allgroups';
+		 }
+		}
     
    
             
@@ -27,7 +33,7 @@ userApp.controller('userCtrl', function($rootScope, $http,$scope){
                 $http.post('/usermanagement/Addgroup',p).then(successCallback, errorCallback);
 
                 function successCallback(response){
-                
+                	myFunction();
                 	console.log(response);
                 	console.log(p);
                 	

@@ -19,7 +19,13 @@ userApp.controller('userCtrlr', function($rootScope, $http,$scope){
 			"firstname":null
 	};
  
-
+	function myFunction() { 
+		 if (window.confirm('Success'))
+		 {
+		   
+		   window.location.href = '/usermanagement/';
+		 }
+		}
     
    
             
@@ -28,12 +34,13 @@ userApp.controller('userCtrlr', function($rootScope, $http,$scope){
                 $http.post('/usermanagement/user/newUser',p).then(successCallback, errorCallback);
 
                 function successCallback(response){
-                
+                	myFunction();
                 	console.log(response);
                 	console.log(p);
                 	
                 }
                 function errorCallback(error){
+                	
                 	console.log(error, 'can not add data.');
                 }
                 
